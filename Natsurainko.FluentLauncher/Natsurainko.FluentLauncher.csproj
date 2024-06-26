@@ -13,6 +13,12 @@
     <EnableMsixTooling>true</EnableMsixTooling>
 	<Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Services\Exception\**" />
+    <EmbeddedResource Remove="Services\Exception\**" />
+    <None Remove="Services\Exception\**" />
+    <Page Remove="Services\Exception\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -42,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\Settings\" />
-    <Folder Include="Services\Exception\" />
     <Folder Include="Utils\Extensions\" />
     <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
@@ -53,9 +58,6 @@
     <Folder Include="XamlHelpers\Behaviors\" />
     <Folder Include="XamlHelpers\Selectors\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Git\Natsurainko.FluentLauncher\Natsurainko.FluentCore\Natsurainko.FluentCore\Natsurainko.FluentCore.csproj" />
-  </ItemGroup>
 
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
@@ -65,4 +67,10 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <PRIResource Remove="Services\Exception\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Natsurainko.FluentCore\Natsurainko.FluentCore\Natsurainko.FluentCore.csproj" />
+  </ItemGroup>
 </Project>
