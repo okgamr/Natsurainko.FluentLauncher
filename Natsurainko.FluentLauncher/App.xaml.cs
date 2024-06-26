@@ -1,13 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AppSettingsManagement;
+using AppSettingsManagement.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Natsurainko.FluentLauncher.Services.ExceptionHandle;
+using Natsurainko.FluentLauncher.Services.Settings;
 using Natsurainko.FluentLauncher.Services.UI.Messaging;
 using Natsurainko.FluentLauncher.Services.UI.Navigation;
 using Natsurainko.FluentLauncher.Services.UI.Pages;
 using Natsurainko.FluentLauncher.Services.UI.Windows;
 using Natsurainko.FluentLauncher.Views;
 using System;
-using System.Threading;
+using System.Diagnostics;
 
 namespace Natsurainko.FluentLauncher;
 
@@ -28,11 +32,6 @@ public partial class App : Application
 
     void ConfigureApplication()
     {
-        // Increase thread pool size for bad async code
-        // TODO: Remove this when refactoring is completed
-        ThreadPool.SetMinThreads(20, 20);
-        ThreadPool.SetMaxThreads(20, 20);
-
         // Global exception handler
         UnhandledException += (_, e) =>
         {
@@ -41,16 +40,27 @@ public partial class App : Application
         };
     }
 
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
-        IWindowService mainWindowService;
+        // 确保单例应用程序启动
+        var mainInstance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey("Main");
+
+        if (!mainInstance.IsCurrent)
+        {
+            //Redirect the activation (and args) to the "main" instance, and exit.
+            var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+
+            await mainInstance.RedirectActivationToAsync(activatedEventArgs);
+            Process.GetCurrentProcess().Kill();
+            return;
+        }
 
         try 
         {
-            mainWindowService = App.GetService<IActivationService>().ActivateWindow("MainWindow"); 
+            IWindowService mainWindowService = App.GetService<IActivationService>().ActivateWindow("MainWindow");
         }
         catch (Exception e) 
-        { 
+        {
 
         }
     }
@@ -74,24 +84,25 @@ public partial class App : Application
         services.AddSingleton<ISettingsStorage, WinRTSettingsStorage>();
 
         // FluentCore Services
-        services.AddSingleton<GameService>();
-        services.AddSingleton<LaunchService>();
-        services.AddSingleton<AccountService>();
-        services.AddSingleton<DownloadService>();
+        //services.AddSingleton<GameService>();
+        //services.AddSingleton<LaunchService>();
+        //services.AddSingleton<AccountService>();
+        //services.AddSingleton<DownloadService>();
 
         // Services
-        services.AddSingleton<LocalStorageService>();
+        //services.AddSingleton<LocalStorageService>();
         services.AddSingleton<MessengerService>();
-        services.AddSingleton<AuthenticationService>();
-        services.AddSingleton<NotificationService>();
-        services.AddSingleton<AppearanceService>();
-        services.AddSingleton<SkinCacheService>();
-        services.AddSingleton<InterfaceCacheService>();
-        services.AddSingleton<JumpListService>();
+        //services.AddSingleton<AuthenticationService>();
+        //services.AddSingleton<NotificationService>();
+        //services.AddSingleton<AppearanceService>();
+        //services.AddSingleton<SkinCacheService>();
+        //services.AddSingleton<InterfaceCacheService>();
+        //services.AddSingleton<JumpListService>();
+        services.AddSingleton<ExceptionHandleService>();
 
         // Windows
         services.AddScoped<MainWindow>();
-
+        /*
         // ViewModels
         services.AddTransient<ViewModels.OOBE.OOBEViewModel>();
 
@@ -123,12 +134,12 @@ public partial class App : Application
         services.AddTransient<ViewModels.Downloads.ResourceItemViewModel>();
         services.AddTransient<ViewModels.Downloads.CoreInstallWizardViewModel>();
 
-        services.AddTransient<ViewModels.ShellViewModel>();
+        services.AddTransient<ViewModels.ShellViewModel>();*/
 
         return services.BuildServiceProvider();
     }
 
-    private static IPageProvider BuildPageProvider(IServiceProvider sp) => WinUIPageProvider.GetBuilder(sp)
+    private static IPageProvider BuildPageProvider(IServiceProvider sp) => WinUIPageProvider.GetBuilder(sp)/*
         // OOBE
         .WithPage<Views.OOBE.OOBENavigationPage, ViewModels.OOBE.OOBEViewModel>("OOBENavigationPage")
         .WithPage<Views.OOBE.AccountPage>("OOBEAccountPage")
@@ -168,7 +179,7 @@ public partial class App : Application
         .WithPage<Views.Settings.AccountPage, ViewModels.Settings.AccountViewModel>("AccountSettingsPage")
         .WithPage<Views.Settings.DownloadPage, ViewModels.Settings.DownloadViewModel>("DownloadSettingsPage")
         .WithPage<Views.Settings.AppearancePage, ViewModels.Settings.AppearanceViewModel>("AppearanceSettingsPage")
-        .WithPage<Views.Settings.AboutPage, ViewModels.Settings.AboutViewModel>("AboutPage")
+        .WithPage<Views.Settings.AboutPage, ViewModels.Settings.AboutViewModel>("AboutPage")*/
 
         .Build();
 
@@ -181,5 +192,4 @@ public partial class App : Application
 
     public static T GetService<T>() => Services.GetService<T>()
         ?? throw new InvalidOperationException($"E003,{typeof(T).Name}");
-
 }

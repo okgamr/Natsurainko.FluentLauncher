@@ -11,7 +11,7 @@ internal interface IWindowService
     /// <summary>
     /// 传入参数
     /// </summary>
-    object? Parameter { get; }
+    object? ActivatingParameter { get; }
 
     /// <summary>
     /// 关闭窗口

@@ -6,7 +6,7 @@ namespace Natsurainko.FluentLauncher.Services.UI.Messaging;
 /// 用于管理其他组件的事件订阅和全局消息传递的单例服务
 /// </summary>
 internal class MessengerService
-{
+{/*
     private readonly AccountService _accountService;
 
     public MessengerService(AccountService accountService)
@@ -28,5 +28,5 @@ internal class MessengerService
             return;
 
         WeakReferenceMessenger.Default.Send(new ActiveAccountChangedMessage(e));
-    }
+    }*/
 }

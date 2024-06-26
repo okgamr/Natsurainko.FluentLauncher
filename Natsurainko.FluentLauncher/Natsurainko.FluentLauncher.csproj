@@ -31,7 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AppSettingsManagement" Version="0.2.6-alpha" />
+    <PackageReference Include="AppSettingsManagement.Windows" Version="0.2.6-alpha" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
     <PackageReference Include="WinUIEx" Version="2.3.4" />
@@ -47,7 +50,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\Settings\" />
     <Folder Include="Utils\Extensions\" />
     <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
