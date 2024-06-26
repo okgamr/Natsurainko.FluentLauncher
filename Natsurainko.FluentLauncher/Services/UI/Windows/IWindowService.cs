@@ -1,20 +1,30 @@
 ﻿namespace Natsurainko.FluentLauncher.Services.UI.Windows;
 
-// Sevice for operations of a window
-interface IWindowService
+// 提供窗口操作的服务
+internal interface IWindowService
 {
+    /// <summary>
+    /// 窗口标题
+    /// </summary>
     string Title { get; set; }
 
     /// <summary>
-    /// Close the window
+    /// 传入参数
+    /// </summary>
+    object? Parameter { get; }
+
+    /// <summary>
+    /// 关闭窗口
     /// </summary>
     void Close();
+
     /// <summary>
-    /// Hide the window
+    /// 隐藏窗口
     /// </summary>
     void Hide();
+
     /// <summary>
-    /// Activate the window
+    /// 激活窗口
     /// </summary>
     void Activate();
 }

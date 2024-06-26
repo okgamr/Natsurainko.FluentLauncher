@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 
 namespace Natsurainko.FluentLauncher.Services.UI.Pages;
-public class PageProviderBuilder<TPageProvider, TPageBase> where TPageProvider : PageProvider<TPageBase>
+
+internal class PageProviderBuilder<TPageProvider, TPageBase> where TPageProvider : PageProvider<TPageBase>
 {
     private readonly Dictionary<string, PageDescriptor> _registeredPages = new();
     private readonly IServiceProvider _serviceProvider;
+
     private Func<IReadOnlyDictionary<string, PageDescriptor>, IServiceProvider, TPageProvider> _pageProviderFactory;
 
     public PageProviderBuilder(IServiceProvider serviceProvider)
@@ -36,4 +38,5 @@ public class PageProviderBuilder<TPageProvider, TPageBase> where TPageProvider :
     {
         return _pageProviderFactory(_registeredPages, _serviceProvider);
     }
+
 }

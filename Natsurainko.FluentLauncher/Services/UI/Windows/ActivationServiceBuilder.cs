@@ -5,11 +5,11 @@ using System.Collections.ObjectModel;
 namespace Natsurainko.FluentLauncher.Services.UI.Windows;
 
 /// <summary>
-/// Builder of any type derived from <see cref="ActivationService{TWindowBase}"/>
+/// 创建任何自 <see cref="ActivationService{TWindowBase}"/> 派生的类型
 /// </summary>
 /// <typeparam name="TService">Type of the activation service</typeparam>
 /// <typeparam name="TWindowBase">Base type of the window managed by the activation service</typeparam>
-class ActivationServiceBuilder<TService, TWindowBase> where TService : ActivationService<TWindowBase>
+internal class ActivationServiceBuilder<TService, TWindowBase> where TService : ActivationService<TWindowBase>
 {
     private readonly Dictionary<string, WindowDescriptor> _registeredWindows = new();
     private readonly IServiceProvider _windowProvider;

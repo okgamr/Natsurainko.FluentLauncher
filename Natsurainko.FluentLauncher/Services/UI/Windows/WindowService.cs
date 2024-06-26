@@ -4,11 +4,13 @@ using WinUIEx;
 namespace Natsurainko.FluentLauncher.Services.UI.Windows;
 
 /// <summary>
-/// Default implementation of <see cref="IActivationService"/> for a WinUI window.
+/// WinUI 窗口的 <see cref="IActivationService"/> 的默认实现
 /// </summary>
-class WindowService : IWindowService
+internal class WindowService : IWindowService
 {
     private readonly Window _window;
+
+    public object? ActivatingParameter { get; init; }
 
     public string Title
     {
@@ -16,12 +18,15 @@ class WindowService : IWindowService
         set => _window.Title = value;
     }
 
-    public WindowService(Window window)
+    public WindowService(Window window, object? parameter)
     {
         _window = window;
+        ActivatingParameter = parameter;
     }
 
     public void Close() => _window.Close();
+
     public void Hide() => _window.Hide();
+
     public void Activate() => _window.Activate();
 }

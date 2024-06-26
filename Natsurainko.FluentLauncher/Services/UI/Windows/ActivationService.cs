@@ -6,20 +6,20 @@ using System.Collections.Generic;
 namespace Natsurainko.FluentLauncher.Services.UI.Windows;
 
 /// <summary>
-/// Default implementation of <see cref="IActivationService"/>
+/// <see cref="IActivationService"/> 的默认实现
 /// </summary>
-abstract class ActivationService<TWindowBase> : IActivationService
+internal abstract class ActivationService<TWindowBase> : IActivationService
 {
     protected readonly IServiceProvider _windowProvider;
     protected readonly IReadOnlyDictionary<string, WindowDescriptor> _registeredWindows;
-    protected readonly List<TWindowBase> _activeWindows = new(); // TODO: maintain a list of active windows
+    protected readonly List<TWindowBase> _activeWindows = new();
 
     public IReadOnlyDictionary<string, WindowDescriptor> RegisteredWindows => _registeredWindows;
 
     /// <summary>
-    /// Build an activation service that supports activating the windows described
+    /// 创建支持激活所述窗口的激活服务
     /// </summary>
-    /// <param name="registeredWindows">A read only dictionary that maps string keys to <see cref="WindowDescriptor"/> objects.</param>
+    /// <param name="registeredWindows">将字符串键映射到 <see cref="WindowDescriptor"/> 对象的只读字典.</param>
     /// <param name="windowProvider">An <see cref="IServiceProvider"/> that has been configured to support window types according to the rules defined by <paramref name="registeredWindows"/>.</param>
     internal ActivationService(IReadOnlyDictionary<string, WindowDescriptor> registeredWindows, IServiceProvider windowProvider)
     {
@@ -27,7 +27,7 @@ abstract class ActivationService<TWindowBase> : IActivationService
         _windowProvider = windowProvider;
     }
 
-    public IWindowService ActivateWindow(string key)
+    public IWindowService ActivateWindow(string key, object? parameter = default)
     {
         // Creates a new scope for resources owned by the window
         IServiceScope scope = _windowProvider.CreateScope();
@@ -35,7 +35,7 @@ abstract class ActivationService<TWindowBase> : IActivationService
         // Constructs the window
         Type windowType = RegisteredWindows[key].WindowType; // windowType is guaranteed to be a subclass of TWindowBase when the activation service is built
         TWindowBase window = (TWindowBase?)scope.ServiceProvider.GetService(windowType)
-            ?? throw new InvalidOperationException($"The window type {windowType} is not registered with the window provider.");
+            ?? throw new InvalidOperationException($"E002,{windowType}");
 
         // If the window supports navigation, initialize the navigation service for the window scope
         // The navigation service may have been instantiated and injected into 'window' already.
@@ -49,19 +49,21 @@ abstract class ActivationService<TWindowBase> : IActivationService
         ConfigureWindowClose(window, scope);
 
         // Activates the window
-        return ActivateWindow(window);
+        return ActivateWindow(window, parameter);
     }
 
     /// <summary>
-    /// Activate the <paramref name="window"/> resolved and return an <see cref="IWindowService"/> that can be used to control it.
+    /// 激活对应的 <paramref name="window"/> 并且返回一个能控制该窗口 <see cref="IWindowService"/> 的对象
     /// </summary>
-    /// <param name="window"></param>
+    /// <param name="window">窗口</param>
+    /// <param name="parameter">传递的参数</param>
     /// <returns></returns>
-    protected abstract IWindowService ActivateWindow(TWindowBase window);
+    protected abstract IWindowService ActivateWindow(TWindowBase window, object? parameter = default);
+
     /// <summary>
     /// Configure the <paramref name="window"/> to dispose the <paramref name="scope"/> and removes itself from ActiveWindows when it is closed.
     /// </summary>
-    /// <param name="window"></param>
+    /// <param name="window">窗口</param>
     /// <param name="scope"></param>
     protected abstract void ConfigureWindowClose(TWindowBase window, IServiceScope scope);
 }

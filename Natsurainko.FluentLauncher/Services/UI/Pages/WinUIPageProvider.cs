@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 
 namespace Natsurainko.FluentLauncher.Services.UI.Pages;
-public class WinUIPageProvider : PageProvider<Page>
+
+internal class WinUIPageProvider : PageProvider<Page>
 {
-    // Factory pattern
+    // 工厂模式
     public static PageProviderBuilder<WinUIPageProvider, Page> GetBuilder(IServiceProvider windowProvider)
     {
         return new PageProviderBuilder<WinUIPageProvider, Page>(windowProvider)

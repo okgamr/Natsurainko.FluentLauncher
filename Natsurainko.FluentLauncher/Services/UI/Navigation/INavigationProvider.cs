@@ -1,14 +1,12 @@
 ﻿namespace Natsurainko.FluentLauncher.Services.UI.Navigation;
 
-#nullable enable
-
 /// <summary>
-/// A page or window that provides navigation
+/// 提供导航的页面或窗口
 /// </summary>
-public interface INavigationProvider
+internal interface INavigationProvider
 {
     /// <summary>
-    /// The UI element that provides navigation
+    /// 提供导航的 UI 元素
     /// </summary>
     object NavigationControl { get; }
 }

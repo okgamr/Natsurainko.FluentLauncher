@@ -3,34 +3,32 @@ using System.Collections.Generic;
 
 namespace Natsurainko.FluentLauncher.Services.UI.Windows;
 
-#nullable enable
-
-public record WindowDescriptor(Type WindowType, bool MultiInstance = false);
-
 /// <summary>
-/// A service for activating app windows.
-/// A window can be registered as single instance or multiple instances with a string key.
+/// 用于激活应用程序窗口的服务
+/// 窗口可以使用字符串键注册为单个实例或多个实例
 /// </summary>
-interface IActivationService
+internal interface IActivationService
 {
     /// <summary>
-    /// A dictionary of registered windows that maps a string key to a window type.
+    /// 记录了字符串键到窗口类型的映射的字典
     /// </summary>
     IReadOnlyDictionary<string, WindowDescriptor> RegisteredWindows { get; }
 
     /// <summary>
-    /// Attempts to activate a registered window
+    /// 尝试激活已注册的窗口
     /// </summary>
     /// <remarks>
-    /// If the window is registered as single instance, it will activate the existing instance
-    /// by bringing it to the foreground, or create a new instance if there is no instance of this type.
+    /// 如果窗口注册为单实例，它将激活现有实例，或者如果没有此类型的实例，则创建一个新实例。
     /// <br/>
-    /// If the window is registered as multiple instances, it will create a new instance of the window,
-    /// and activate the window by bringing it to the foreground.
+    /// 如果窗口被注册为多个实例，它将创建该窗口的新实例，并通过将其置于前台来激活该窗口。
     /// <br/>
-    /// If the window is not registered, it will throw an exception.
+    /// 如果窗口没有被注册，会抛出异常。
     /// </remarks>
-    /// <param name="key">Key of the window</param>
-    /// <returns>IWindowService of the window created and/or activated</returns>
-    IWindowService ActivateWindow(string key); // TODO: allow passing parameters to the window
+    /// <param name="key">窗口注册的键值</param>
+    /// <param name="parameter">传递的参数</param>
+    /// <returns>创建 并/或 激活的窗口的 IWindowService</returns>
+    IWindowService ActivateWindow(string key, object? parameter = default);
 }
+
+
+public record WindowDescriptor(Type WindowType, bool MultiInstance = false);

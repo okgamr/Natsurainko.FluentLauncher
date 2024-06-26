@@ -1,12 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using Natsurainko.FluentLauncher.Services.Accounts;
 
 namespace Natsurainko.FluentLauncher.Services.UI.Messaging;
 
 /// <summary>
-/// A singleton service for managing events subscription of other components and global messaging
+/// 用于管理其他组件的事件订阅和全局消息传递的单例服务
 /// </summary>
-class MessengerService
+internal class MessengerService
 {
     private readonly AccountService _accountService;
 
@@ -15,6 +14,9 @@ class MessengerService
         _accountService = accountService;
     }
 
+    /// <summary>
+    /// 注册事件
+    /// </summary>
     public void SubscribeEvents()
     {
         _accountService.ActiveAccountChanged += AccountService_ActiveAccountChanged;
