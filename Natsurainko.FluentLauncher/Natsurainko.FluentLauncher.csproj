@@ -42,10 +42,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\OOBE\" />
-    <Folder Include="XamlHelpers\Actions\" />
-    <Folder Include="XamlHelpers\Converters\" />
-    <Folder Include="XamlHelpers\Behaviors\" />
     <Folder Include="XamlHelpers\Selectors\" />
   </ItemGroup>
 
@@ -63,6 +59,13 @@
   <ItemGroup>
     <None Remove="Assets\AppIcon.ico" />
     <None Remove="Assets\AppIcon.png" />
+    <None Remove="Views\Dialogs\AuthenticationWizardDialog.xaml" />
+    <None Remove="Views\OOBE\AccountPage.xaml" />
+    <None Remove="Views\OOBE\GetStartedPage.xaml" />
+    <None Remove="Views\OOBE\JavaPage.xaml" />
+    <None Remove="Views\OOBE\LanguagePage.xaml" />
+    <None Remove="Views\OOBE\MinecraftFolderPage.xaml" />
+    <None Remove="Views\OOBE\OOBENavigationPage.xaml" />
     <None Remove="Views\ShellPage.xaml" />
     <None Remove="XamlHelpers\Dictionaries\NotifyStyleDictionary.xaml" />
   </ItemGroup>
@@ -70,6 +73,35 @@
     <ProjectReference Include="..\Natsurainko.FluentCore\Natsurainko.FluentCore\Natsurainko.FluentCore.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\Dialogs\AuthenticationWizardDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\OOBE\AccountPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OOBE\GetStartedPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OOBE\JavaPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OOBE\LanguagePage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OOBE\MinecraftFolderPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OOBE\OOBENavigationPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="XamlHelpers\Dictionaries\NotifyStyleDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,4 +111,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="cd ..&#xD;&#xA;pwsh ./update-localization.ps1" />
+  </Target>
 </Project>

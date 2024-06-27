@@ -78,7 +78,7 @@ public sealed partial class MainWindow : WindowEx, INavigationProvider
     {
         if (_firstActivated)
         {
-            _navService.NavigateTo("ShellPage", _settings.FinishGuide ? "ShellPage" : "OOBENavigationPage");
+            _navService.NavigateTo(_settings.FinishGuide ? "ShellPage" : "OOBENavigationPage");
             this.CenterOnScreen();
             if (_settings.AppWindowState == WindowState.Maximized) this.Maximize();
         }

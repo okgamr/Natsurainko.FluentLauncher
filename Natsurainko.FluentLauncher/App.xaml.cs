@@ -37,6 +37,8 @@ public partial class App : Application
 
     void ConfigureApplication()
     {
+        DispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
         // Global exception handler
         UnhandledException += (_, e) =>
         {
@@ -144,7 +146,7 @@ public partial class App : Application
         return services.BuildServiceProvider();
     }
 
-    private static IPageProvider BuildPageProvider(IServiceProvider sp) => WinUIPageProvider.GetBuilder(sp)/*
+    private static IPageProvider BuildPageProvider(IServiceProvider sp) => WinUIPageProvider.GetBuilder(sp)
         // OOBE
         .WithPage<Views.OOBE.OOBENavigationPage, ViewModels.OOBE.OOBEViewModel>("OOBENavigationPage")
         .WithPage<Views.OOBE.AccountPage>("OOBEAccountPage")
@@ -152,7 +154,7 @@ public partial class App : Application
         .WithPage<Views.OOBE.JavaPage>("OOBEJavaPage")
         .WithPage<Views.OOBE.GetStartedPage>("OOBEGetStartedPage")
         .WithPage<Views.OOBE.LanguagePage>("OOBELanguagePage")
-        */
+        
         // Main
         .WithPage<ShellPage, ShellViewModel>("ShellPage")
         /*

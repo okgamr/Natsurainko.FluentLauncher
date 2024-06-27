@@ -12,6 +12,8 @@ internal class WindowService : IWindowService
 
     public object? ActivatingParameter { get; init; }
 
+    public Window Window => _window;
+
     public string Title
     {
         get => _window.Title;

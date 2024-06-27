@@ -1,19 +1,16 @@
 ﻿using AppSettingsManagement.Mvvm;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Natsurainko.FluentLauncher.Services.Accounts;
 using Natsurainko.FluentLauncher.Services.Launch;
 using Natsurainko.FluentLauncher.Services.Settings;
 using Natsurainko.FluentLauncher.Services.UI;
-using Natsurainko.FluentLauncher.Services.UI.Messaging;
 using Natsurainko.FluentLauncher.Services.UI.Navigation;
 using Natsurainko.FluentLauncher.Utils;
-//using Natsurainko.FluentLauncher.Views.Common;
+using Natsurainko.FluentLauncher.Views.Dialogs;
 using Nrk.FluentCore.Authentication;
 using Nrk.FluentCore.Environment;
-using Nrk.FluentCore.Services.Launch;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,8 +19,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage.Pickers;
-
-#nullable disable
 
 namespace Natsurainko.FluentLauncher.ViewModels.OOBE;
 
@@ -333,8 +328,8 @@ internal partial class OOBEViewModel : ObservableRecipient, INavigationAware, IS
     }
 
     [RelayCommand]
-    public void Login(Button parameter) { }
-        //=> _ = new AuthenticationWizardDialog { XamlRoot = parameter.XamlRoot }.ShowAsync();
+    public void Login(Button parameter)
+        => _ = new AuthenticationWizardDialog { XamlRoot = parameter.XamlRoot }.ShowAsync();
 
     [RelayCommand]
     public void RemoveAccount(Account account)

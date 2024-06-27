@@ -1,4 +1,6 @@
-﻿namespace Natsurainko.FluentLauncher.Services.UI.Windows;
+﻿using Microsoft.UI.Xaml;
+
+namespace Natsurainko.FluentLauncher.Services.UI.Windows;
 
 // 提供窗口操作的服务
 internal interface IWindowService
@@ -12,6 +14,8 @@ internal interface IWindowService
     /// 传入参数
     /// </summary>
     object? ActivatingParameter { get; }
+
+    Window Window { get; }
 
     /// <summary>
     /// 关闭窗口
