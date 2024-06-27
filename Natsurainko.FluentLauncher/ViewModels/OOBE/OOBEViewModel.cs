@@ -303,8 +303,8 @@ internal partial class OOBEViewModel : ObservableRecipient, INavigationAware, IS
     }
 
     [RelayCommand]
-    public void OpenJavaMirrorsDialog(HyperlinkButton parameter) { }
-        //=> _ = new JavaMirrorsDialog { XamlRoot = parameter.XamlRoot }.ShowAsync();
+    public void OpenJavaMirrorsDialog(HyperlinkButton parameter)
+        => _ = new JavaMirrorsDialog { XamlRoot = parameter.XamlRoot }.ShowAsync();
 
     #endregion
 

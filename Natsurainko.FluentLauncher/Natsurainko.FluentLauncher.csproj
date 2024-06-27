@@ -60,6 +60,7 @@
     <None Remove="Assets\AppIcon.ico" />
     <None Remove="Assets\AppIcon.png" />
     <None Remove="Views\Dialogs\AuthenticationWizardDialog.xaml" />
+    <None Remove="Views\Dialogs\JavaMirrorsDialog.xaml" />
     <None Remove="Views\OOBE\AccountPage.xaml" />
     <None Remove="Views\OOBE\GetStartedPage.xaml" />
     <None Remove="Views\OOBE\JavaPage.xaml" />
@@ -71,6 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Natsurainko.FluentCore\Natsurainko.FluentCore\Natsurainko.FluentCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\JavaMirrorsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Dialogs\AuthenticationWizardDialog.xaml">
