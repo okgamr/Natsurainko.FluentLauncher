@@ -5,7 +5,7 @@ namespace Natsurainko.FluentLauncher.Services.UI.Navigation;
 /// <summary>
 /// 控制窗口或页面导航的服务
 /// </summary>
-internal interface INavigationService
+public interface INavigationService
 {
     /// <summary>
     /// 提供导航的窗口或页面

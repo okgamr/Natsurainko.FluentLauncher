@@ -3,12 +3,17 @@ using AppSettingsManagement.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Natsurainko.FluentLauncher.Services.Accounts;
 using Natsurainko.FluentLauncher.Services.ExceptionHandle;
+using Natsurainko.FluentLauncher.Services.Launch;
 using Natsurainko.FluentLauncher.Services.Settings;
+using Natsurainko.FluentLauncher.Services.Storage;
+using Natsurainko.FluentLauncher.Services.UI;
 using Natsurainko.FluentLauncher.Services.UI.Messaging;
 using Natsurainko.FluentLauncher.Services.UI.Navigation;
 using Natsurainko.FluentLauncher.Services.UI.Pages;
 using Natsurainko.FluentLauncher.Services.UI.Windows;
+using Natsurainko.FluentLauncher.ViewModels;
 using Natsurainko.FluentLauncher.Views;
 using System;
 using System.Diagnostics;
@@ -84,16 +89,16 @@ public partial class App : Application
         services.AddSingleton<ISettingsStorage, WinRTSettingsStorage>();
 
         // FluentCore Services
-        //services.AddSingleton<GameService>();
-        //services.AddSingleton<LaunchService>();
-        //services.AddSingleton<AccountService>();
+        services.AddSingleton<GameService>();
+        services.AddSingleton<LaunchService>();
+        services.AddSingleton<AccountService>();
         //services.AddSingleton<DownloadService>();
 
         // Services
-        //services.AddSingleton<LocalStorageService>();
+        services.AddSingleton<LocalStorageService>();
         services.AddSingleton<MessengerService>();
-        //services.AddSingleton<AuthenticationService>();
-        //services.AddSingleton<NotificationService>();
+        services.AddSingleton<AuthenticationService>();
+        services.AddSingleton<NotificationService>();
         //services.AddSingleton<AppearanceService>();
         //services.AddSingleton<SkinCacheService>();
         //services.AddSingleton<InterfaceCacheService>();
@@ -102,10 +107,10 @@ public partial class App : Application
 
         // Windows
         services.AddScoped<MainWindow>();
-        /*
+        
         // ViewModels
         services.AddTransient<ViewModels.OOBE.OOBEViewModel>();
-
+        /*
         services.AddSingleton<ViewModels.Activities.LaunchSessions>();
         services.AddTransient<ViewModels.Activities.ActivitiesNavigationViewModel>();
         services.AddTransient<ViewModels.Activities.NewsViewModel>();
@@ -133,8 +138,8 @@ public partial class App : Application
         services.AddTransient<ViewModels.Downloads.ResourcesSearchViewModel>();
         services.AddTransient<ViewModels.Downloads.ResourceItemViewModel>();
         services.AddTransient<ViewModels.Downloads.CoreInstallWizardViewModel>();
-
-        services.AddTransient<ViewModels.ShellViewModel>();*/
+        */
+        services.AddTransient<ViewModels.ShellViewModel>();
 
         return services.BuildServiceProvider();
     }
@@ -147,10 +152,10 @@ public partial class App : Application
         .WithPage<Views.OOBE.JavaPage>("OOBEJavaPage")
         .WithPage<Views.OOBE.GetStartedPage>("OOBEGetStartedPage")
         .WithPage<Views.OOBE.LanguagePage>("OOBELanguagePage")
-
+        */
         // Main
         .WithPage<ShellPage, ShellViewModel>("ShellPage")
-
+        /*
         // Home page
         .WithPage<Views.Home.HomePage, ViewModels.Home.HomeViewModel>("HomePage")
 

@@ -1,0 +1,196 @@
+﻿using Natsurainko.FluentLauncher.Services.Settings;
+using Natsurainko.FluentLauncher.Services.Storage;
+using Nrk.FluentCore.Authentication;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
+
+namespace Natsurainko.FluentLauncher.Services.Accounts;
+
+internal class AccountService
+{
+    private readonly LocalStorageService _storageService;
+    private readonly SettingsService _settingsService;
+    private readonly AuthenticationService _authService;
+    //private readonly SkinCacheService _skinCacheService;
+
+    public readonly string AccountsJsonPath = Path.Combine("settings", "accounts.json");
+
+    #region Account Properties & Events
+
+    private Account? _activeAccount;
+    private readonly ObservableCollection<Account> _accounts;
+
+    public Account? ActiveAccount
+    {
+        get => _activeAccount;
+        set
+        {
+            if (_activeAccount != value)
+            {
+                _settingsService.ActiveAccountUuid = value?.Uuid;
+                ActiveAccountChanged?.Invoke(this, value);
+            }
+            _activeAccount = value;
+        }
+    }
+
+    public ReadOnlyObservableCollection<Account> Accounts { get; }
+
+    public event EventHandler<Account?>? ActiveAccountChanged;
+    public event NotifyCollectionChangedEventHandler AccountsChanged
+    {
+        add => _accounts.CollectionChanged += value;
+        remove => _accounts.CollectionChanged -= value;
+    }
+
+    #endregion
+
+    public AccountService(
+        SettingsService settingsService,
+        LocalStorageService storageService,
+        AuthenticationService authService/*,
+        SkinCacheService skinCacheService*/)
+    {
+        _settingsService = settingsService;
+        _storageService = storageService;
+        _authService = authService;
+        //_skinCacheService = skinCacheService;
+
+        _accounts = new ObservableCollection<Account>(InitializeAccountCollection());
+        Accounts = new ReadOnlyObservableCollection<Account>(_accounts);
+
+        if (_settingsService.ActiveAccountUuid is Guid uuid)
+            ActivateAccount(_accounts.Where(x => x.Uuid == uuid).FirstOrDefault());
+
+        _accounts.CollectionChanged += (_, e) => SaveData();
+    }
+
+    #region Read/Write Accounts
+
+    /// <summary>
+    /// Loads the account list to Accounts from a JSON file
+    /// </summary>
+    private IEnumerable<Account> InitializeAccountCollection()
+    {
+        // Read settings/accounts.json from local storage service
+        var accountJson = App.GetService<LocalStorageService>().GetFile(AccountsJsonPath);
+        string accountsJson = accountJson.Exists ? File.ReadAllText(accountJson.FullName) : "[]";
+
+        // Parse accounts.json
+        if (JsonNode.Parse(accountsJson) is not JsonNode jsonNode)
+            yield break;
+
+        foreach (var item in jsonNode.AsArray())
+        {
+            var accountType = (AccountType)(item?["Type"]?.GetValue<int>()).GetValueOrDefault(0);
+
+            Account? account = accountType switch
+            {
+                AccountType.Offline => item.Deserialize<OfflineAccount>(),
+                AccountType.Microsoft => item.Deserialize<MicrosoftAccount>(),
+                AccountType.Yggdrasil => item.Deserialize<YggdrasilAccount>(),
+                _ => null
+            };
+
+            if (account is null)
+                continue;
+
+            yield return account;
+        }
+    }
+
+    /// <summary>
+    /// Save the account list to a JSON file
+    /// Called automatically when Accounts is changed
+    /// </summary>
+    private void SaveData()
+    {
+        var jsonArray = new JsonArray();
+        foreach (var item in Accounts)
+        {
+            if (item is OfflineAccount offlineAccount)
+                jsonArray.Add(offlineAccount);
+            else if (item is MicrosoftAccount microsoftAccount)
+                jsonArray.Add(microsoftAccount);
+            else if ((item is YggdrasilAccount yggdrasilAccount))
+                jsonArray.Add(yggdrasilAccount);
+        }
+
+        // Save to file
+        string json = jsonArray.ToJsonString();
+        var file = _storageService.GetFile(AccountsJsonPath);
+
+        if (file.Directory != null && !file.Directory.Exists)
+            file.Directory.Create();
+
+        File.WriteAllText(file.FullName, json);
+    }
+
+    #endregion
+
+    #region Accounts Operations
+
+    public void AddAccount(Account account)
+    {
+        if (Accounts.Where(x => x.Uuid.Equals(account.Uuid) && x.Type.Equals(account.Type)).Any())
+            throw new Exception("E005");
+
+        _accounts.Add(account);
+    }
+
+    public bool RemoveAccount(Account account, bool onlyRemove = false)
+    {
+        bool result = _accounts.Remove(account);
+
+        if (ActiveAccount == account && !onlyRemove)
+            this.ActivateAccount(_accounts.Count != 0 ? _accounts[0] : null);
+
+        return result;
+    }
+
+    public void ActivateAccount(Account? account)
+    {
+        if (account != null && !_accounts.Contains(account))
+            throw new ArgumentException($"E007,{account}", nameof(account));
+
+        ActiveAccount = account;
+    }
+
+    public async Task RefreshAccount(Account account)
+    {
+        // RefreshAsync account
+        Account refreshedAccount = account switch
+        {
+            MicrosoftAccount microsoftAccount => await _authService.RefreshAsync(microsoftAccount),
+            YggdrasilAccount yggdrasilAccount => (await _authService.RefreshAsync(yggdrasilAccount))
+                .First(acc => acc.Uuid.Equals(account.Uuid)),
+            OfflineAccount offlineAccount => _authService.Refresh(offlineAccount),
+
+            _ => throw new InvalidOperationException("E008")
+        };
+
+        // Update stored account
+        Account? oldAccount = Accounts.Where(x => x.Uuid.Equals(account.Uuid) && x.Type.Equals(account.Type)).FirstOrDefault();
+        if (oldAccount == null)
+            throw new Exception($"E009,{account}");
+
+        bool isActiveAccount = ActiveAccount == oldAccount;
+        RemoveAccount(oldAccount, true);
+        AddAccount(refreshedAccount);
+
+        if (isActiveAccount)
+            ActivateAccount(refreshedAccount);
+
+        // Cache skin
+        //await Task.Run(() => _skinCacheService.TryCacheSkin(refreshedAccount));
+    }
+
+    #endregion
+}

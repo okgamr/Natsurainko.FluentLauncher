@@ -1,7 +1,29 @@
-<Window
+<winuiEx:WindowEx
     x:Class="Natsurainko.FluentLauncher.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" />
+    xmlns:winuiEx="using:WinUIEx"
+    Activated="WindowEx_Activated"
+    SizeChanged="WindowEx_SizeChanged"
+    WindowStateChanged="WindowEx_WindowStateChanged"
+    mc:Ignorable="d">
+
+    <Grid ActualThemeChanged="Grid_ActualThemeChanged">
+        <Grid x:Name="BackgroundGrid" Background="Transparent" />
+        <Frame x:Name="Frame" Background="Transparent" />
+
+        <ScrollViewer
+            Margin="50,50,50,20"
+            Padding="-25,-50,-25,-25"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            VerticalScrollBarVisibility="Hidden">
+            <StackPanel
+                x:Name="NotifyStackPanel"
+                Margin="25,50,25,25"
+                Spacing="4" />
+        </ScrollViewer>    
+    </Grid>
+</winuiEx:WindowEx>

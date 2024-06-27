@@ -13,7 +13,7 @@ using Windows.Storage;
 
 namespace Natsurainko.FluentLauncher.Services.Settings;
 
-internal partial class SettingsService : SettingsContainer, IFluentCoreSettingsService
+public partial class SettingsService : SettingsContainer, IFluentCoreSettingsService
 {
     #region IFluentCoreSettingsService Property
 

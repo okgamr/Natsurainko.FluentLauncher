@@ -8,16 +8,16 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="f70fccae-8d93-4a34-bfe9-8dd3d186cf38"
-    Publisher="CN=Natsuraniko"
+    Name="26553XcubeStudio.Natsurianko.FluentLauncher"
+    Publisher="CN=053EFB0E-6705-4A11-94B9-980C4C9E0047"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="f70fccae-8d93-4a34-bfe9-8dd3d186cf38" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="820e09cb-9f5a-407c-b0df-5dd0c87347c4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Natsurainko.FluentLauncher</DisplayName>
-    <PublisherDisplayName>Natsuraniko</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <DisplayName>Natsurianko.FluentLauncher</DisplayName>
+    <PublisherDisplayName>Xcube Studio</PublisherDisplayName>
+    <Logo>Assets\PackageIcons\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -34,13 +34,13 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Natsurainko.FluentLauncher"
+        DisplayName="Natsurianko.FluentLauncher"
         Description="Natsurainko.FluentLauncher"
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        Square150x150Logo="Assets\PackageIcons\Square150x150Logo.png"
+        Square44x44Logo="Assets\PackageIcons\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\PackageIcons\Wide310x150Logo.png"  Square71x71Logo="Assets\PackageIcons\SmallTile.png" Square310x310Logo="Assets\PackageIcons\LargeTile.png"/>
+        <uap:SplashScreen Image="Assets\PackageIcons\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
