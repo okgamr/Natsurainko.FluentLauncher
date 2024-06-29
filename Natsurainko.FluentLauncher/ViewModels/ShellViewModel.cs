@@ -1,9 +1,4 @@
 ﻿using Natsurainko.FluentLauncher.Services.UI.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Natsurainko.FluentLauncher.ViewModels;
 
@@ -21,12 +16,12 @@ internal class ShellViewModel : INavigationAware
     }
 
     void INavigationAware.OnNavigatedTo(object? parameter)
-    {/*
+    {
         if (parameter is string pageKey)
         {
             _shellNavigationService.NavigateTo(pageKey);
             _onNavigatedTo = true;
         }
-        else _shellNavigationService.NavigateTo("HomePage");*/
+        else _shellNavigationService.NavigateTo("HomePage");
     }
 }

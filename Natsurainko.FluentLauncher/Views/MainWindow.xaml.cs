@@ -1,6 +1,7 @@
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Natsurainko.FluentLauncher.Services.Settings;
 using Natsurainko.FluentLauncher.Services.UI;
 using Natsurainko.FluentLauncher.Services.UI.Navigation;
@@ -58,12 +59,16 @@ public sealed partial class MainWindow : WindowEx, INavigationProvider
         (Width, Height) = (_settings.AppWindowWidth, _settings.AppWindowHeight);
 
         //App.GetService<AppearanceService>().ApplyBackgroundAtWindowCreated(this);
+        this.SystemBackdrop = new MicaBackdrop();
 
+        this.SizeChanged += WindowEx_SizeChanged;
+        this.WindowStateChanged += WindowEx_WindowStateChanged;
+        this.Activated += WindowEx_Activated;
     }
 
     #region Window Events
 
-    private void WindowEx_WindowStateChanged(object sender, WindowState e)
+    private void WindowEx_WindowStateChanged(object? sender, WindowState e)
     {
         _settings.AppWindowState = e;
     }

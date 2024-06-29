@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Natsurainko.FluentLauncher.Services.Accounts;
+using Natsurainko.FluentLauncher.Services.Download;
 using Natsurainko.FluentLauncher.Services.ExceptionHandle;
 using Natsurainko.FluentLauncher.Services.Launch;
 using Natsurainko.FluentLauncher.Services.Settings;
@@ -51,6 +52,7 @@ public partial class App : Application
     {
         // 确保单例应用程序启动
         var mainInstance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey("Main");
+        mainInstance.Activated += MainInstance_Activated;
 
         if (!mainInstance.IsCurrent)
         {
@@ -70,6 +72,14 @@ public partial class App : Application
         {
 
         }
+    }
+
+    private void MainInstance_Activated(object? sender, Microsoft.Windows.AppLifecycle.AppActivationArguments e)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            MainWindow?.Activate();
+        });
     }
 
     #region Configure Services
@@ -94,7 +104,7 @@ public partial class App : Application
         services.AddSingleton<GameService>();
         services.AddSingleton<LaunchService>();
         services.AddSingleton<AccountService>();
-        //services.AddSingleton<DownloadService>();
+        services.AddSingleton<DownloadService>();
 
         // Services
         services.AddSingleton<LocalStorageService>();
@@ -133,9 +143,9 @@ public partial class App : Application
         services.AddTransient<ViewModels.Cores.Manage.CoreModsViewModel>();
         services.AddTransient<ViewModels.Cores.Manage.CoreSettingsViewModel>();
         services.AddTransient<ViewModels.Cores.Manage.CoreStatisticViewModel>();
-
+        */
         services.AddTransient<ViewModels.Home.HomeViewModel>();
-
+        /*
         services.AddTransient<ViewModels.Downloads.DownloadsViewModel>();
         services.AddTransient<ViewModels.Downloads.ResourcesSearchViewModel>();
         services.AddTransient<ViewModels.Downloads.ResourceItemViewModel>();
@@ -157,10 +167,10 @@ public partial class App : Application
         
         // Main
         .WithPage<ShellPage, ShellViewModel>("ShellPage")
-        /*
+        
         // Home page
         .WithPage<Views.Home.HomePage, ViewModels.Home.HomeViewModel>("HomePage")
-
+        /*
         // Cores page
         .WithPage<Views.Cores.CoresPage, ViewModels.Cores.CoresViewModel>("CoresPage")
         .WithPage<Views.Cores.ManageNavigationPage, ViewModels.Cores.ManageNavigationViewModel>("CoresManageNavigationPage")

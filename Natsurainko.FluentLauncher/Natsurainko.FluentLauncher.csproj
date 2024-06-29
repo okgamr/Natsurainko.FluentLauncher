@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
+    <PackageReference Include="PInvoke.User32" Version="0.7.124" />
     <PackageReference Include="WinUIEx" Version="2.3.4" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
@@ -69,6 +70,7 @@
     <None Remove="Views\OOBE\OOBENavigationPage.xaml" />
     <None Remove="Views\ShellPage.xaml" />
     <None Remove="XamlHelpers\Dictionaries\NotifyStyleDictionary.xaml" />
+	<None Remove="Views\Home\HomePage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Natsurainko.FluentCore\Natsurainko.FluentCore\Natsurainko.FluentCore.csproj" />
@@ -84,6 +86,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+	<Page Update="Views\ShellPage.xaml">
+	  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+	</Page>
+	<Page Update="Views\Home\HomePage.xaml">
+	  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	  <SubType>Designer</SubType>
+	</Page>
     <Page Update="Views\OOBE\AccountPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -112,12 +122,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\ShellPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="cd ..&#xD;&#xA;pwsh ./update-localization.ps1" />

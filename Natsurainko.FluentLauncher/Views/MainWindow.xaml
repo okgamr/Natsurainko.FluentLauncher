@@ -5,9 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winuiEx="using:WinUIEx"
-    Activated="WindowEx_Activated"
-    SizeChanged="WindowEx_SizeChanged"
-    WindowStateChanged="WindowEx_WindowStateChanged"
     mc:Ignorable="d">
 
     <Grid ActualThemeChanged="Grid_ActualThemeChanged">
@@ -24,6 +21,6 @@
                 x:Name="NotifyStackPanel"
                 Margin="25,50,25,25"
                 Spacing="4" />
-        </ScrollViewer>    
+        </ScrollViewer>
     </Grid>
 </winuiEx:WindowEx>

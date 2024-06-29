@@ -5,7 +5,9 @@ using Natsurainko.FluentLauncher.Services.Settings;
 using Natsurainko.FluentLauncher.Services.UI.Navigation;
 using Natsurainko.FluentLauncher.Services.UI.Pages;
 using Natsurainko.FluentLauncher.Utils.Extensions;
+using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation;
 using Windows.Graphics;
 
 namespace Natsurainko.FluentLauncher.Views;
@@ -38,14 +40,31 @@ public sealed partial class ShellPage : Page, INavigationProvider
         RefreshDragArea();
     }
 
-    private void Page_SizeChanged(object sender, SizeChangedEventArgs e) => RefreshDragArea();
+    private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        AppTitle.Visibility = e.NewSize.Width <= 750 ? Visibility.Collapsed : Visibility.Visible;
+
+        RefreshDragArea();
+    }
 
     #endregion
 
     #region NavigationView Events
-    private void NavigationViewControl_PaneClosing(NavigationView sender, object _) => UpdateAppTitleMargin(sender);
+    private void NavigationViewControl_PaneClosing(NavigationView sender, object _)
+    {
+        AutoSuggestBox.Visibility = Visibility.Visible;
 
-    private void NavigationViewControl_PaneOpening(NavigationView sender, object _) => UpdateAppTitleMargin(sender);
+        UpdateAppTitleMargin(sender);
+        RefreshDragArea();
+    }
+
+    private void NavigationViewControl_PaneOpening(NavigationView sender, object _)
+    {
+        AutoSuggestBox.Visibility = NavigationViewControl.DisplayMode == NavigationViewDisplayMode.Minimal ? Visibility.Collapsed : Visibility.Visible;
+        
+        UpdateAppTitleMargin(sender);
+        RefreshDragArea();
+    }
 
     private void NavigationViewControl_ItemInvoked(NavigationView _, NavigationViewItemInvokedEventArgs args)
     {
@@ -58,24 +77,70 @@ public sealed partial class ShellPage : Page, INavigationProvider
 
     private void NavigationViewControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
     {
-        var currMargin = AppTitleBar.Margin;
-        AppTitleBar.Margin = new Thickness(sender.DisplayMode == NavigationViewDisplayMode.Minimal ? (sender.CompactPaneLength * 2) : sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
+        PaneToggleButton.Visibility = args.DisplayMode == NavigationViewDisplayMode.Minimal ? Visibility.Visible : Visibility.Collapsed;
+        NavigationViewControl.IsPaneToggleButtonVisible = args.DisplayMode != NavigationViewDisplayMode.Minimal;
+
+        if (args.DisplayMode == NavigationViewDisplayMode.Minimal)
+        {
+            Grid.SetRow(NavigationViewControl, 0);
+            Grid.SetRowSpan(NavigationViewControl, 2);
+            Spacer.Height = 48;
+            contentFrame.Margin = new Thickness(0, 48, 0, 0);
+        }
+        else
+        {
+            Grid.SetRow(NavigationViewControl, 1);
+            Grid.SetRowSpan(NavigationViewControl, 1);
+            Spacer.Height = 0;
+            contentFrame.Margin = new Thickness(0);
+        }
+
         UpdateAppTitleMargin(sender);
         RefreshDragArea();
     }
+
     #endregion
 
     private void RefreshDragArea()
     {
         var scaleAdjustment = XamlRoot.RasterizationScale;
-
-        var x = (int)(AppTitleBar.Margin.Left * scaleAdjustment);
-        var y = 0;
-        var width = (int)(AppTitleBar.ActualWidth * scaleAdjustment);
         var height = (int)(48 * scaleAdjustment);
 
-        var dragRect = new RectInt32(x, y, width, height);
-        App.MainWindow.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
+        if (AutoSuggestBox.Visibility == Visibility.Collapsed)
+        {
+            App.MainWindow.AppWindow.TitleBar.SetDragRectangles([ new() 
+            {
+                X = (int)(Column0.ActualWidth * scaleAdjustment),
+                Y = 0,
+                Width = (int)((this.ActualWidth - Column0.ActualWidth) * scaleAdjustment),
+                Height = height
+            }]);
+
+            return;
+        }
+
+        var transform = AutoSuggestBox.TransformToVisual(AppTitleBar);
+        var absolutePosition = transform.TransformPoint(new Point(0, 0));
+
+        var dragRects = new List<RectInt32>
+        {
+            new() 
+            {
+                X = (int)(Column0.ActualWidth * scaleAdjustment),
+                Y = 0,
+                Width = (int)((absolutePosition.X - Column0.ActualWidth) * scaleAdjustment),
+                Height = height
+            },
+            new()
+            {
+                X = (int)((absolutePosition.X + AutoSuggestBox.ActualWidth) * scaleAdjustment),
+                Y = 0,
+                Width = (int)((AppTitleBar.ActualWidth - (absolutePosition.X + AutoSuggestBox.ActualWidth)) * scaleAdjustment),
+                Height = height
+            }
+        };
+
+        App.MainWindow.AppWindow.TitleBar.SetDragRectangles([.. dragRects]);
     }
 
     private void UpdateAppTitleMargin(NavigationView sender)
@@ -100,5 +165,10 @@ public sealed partial class ShellPage : Page, INavigationProvider
                 return;
             }
         }
+    }
+
+    private void PaneToggleButton_Click(object sender, RoutedEventArgs e)
+    {
+        NavigationViewControl.IsPaneOpen = !NavigationViewControl.IsPaneOpen;
     }
 }

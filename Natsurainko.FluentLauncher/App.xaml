@@ -29,6 +29,8 @@
 
             <converters:JavaInfoConverter x:Key="JavaInfoConverter" />
             <converters:AccountInfoConverter x:Key="AccountInfoConverter" />
+            <converters:GameIconConverter x:Key="GameIconConverter" />
+            <converters:GameInfoConverter x:Key="GameInfoConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

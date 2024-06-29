@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage.Pickers;
 
+#nullable disable
+
 namespace Natsurainko.FluentLauncher.ViewModels.OOBE;
 
 internal partial class OOBEViewModel : ObservableRecipient, INavigationAware, ISettingsViewModel
@@ -73,7 +75,7 @@ internal partial class OOBEViewModel : ObservableRecipient, INavigationAware, IS
         "OOBEGetStartedPage"
     };
 
-    void INavigationAware.OnNavigatedTo(object? parameter)
+    void INavigationAware.OnNavigatedTo(object parameter)
     {
         _navigationService.NavigateTo("OOBELanguagePage"); // Default page
     }
@@ -160,7 +162,7 @@ internal partial class OOBEViewModel : ObservableRecipient, INavigationAware, IS
     public string Edition { get; } = LocalizationResourcesUtils.GetValue("Settings", "AboutPage", "_Release");
 #endif
 
-    partial void OnCurrentLanguageChanged(string? oldValue, string newValue)
+    partial void OnCurrentLanguageChanged(string oldValue, string newValue)
     {
         if (Languages.Contains(CurrentLanguage) && oldValue is not null) // oldValue is null at startup
             LocalizationResourcesUtils.ApplyLanguage(CurrentLanguage);
