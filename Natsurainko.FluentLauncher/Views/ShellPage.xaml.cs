@@ -5,6 +5,7 @@ using Natsurainko.FluentLauncher.Services.Settings;
 using Natsurainko.FluentLauncher.Services.UI.Navigation;
 using Natsurainko.FluentLauncher.Services.UI.Pages;
 using Natsurainko.FluentLauncher.Utils.Extensions;
+using Natsurainko.FluentLauncher.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
@@ -15,7 +16,7 @@ namespace Natsurainko.FluentLauncher.Views;
 public sealed partial class ShellPage : Page, INavigationProvider
 {
     object INavigationProvider.NavigationControl => contentFrame;
-    //private ShellViewModel VM => (ShellViewModel)DataContext;*/
+    private ShellViewModel VM => (ShellViewModel)DataContext;
 
     public static XamlRoot _XamlRoot { get; private set; } = null!; // Initialized on Page_Loaded
     public static Frame ContentFrame { get; private set; } = null!; // Initialized on Page_Loaded
@@ -70,10 +71,8 @@ public sealed partial class ShellPage : Page, INavigationProvider
     {
         var pageTag = ((NavigationViewItem)args.InvokedItemContainer).GetTag();
 
-        //VM.NavigationService.NavigateTo(pageTag);
+        VM.NavigationService.NavigateTo(pageTag);
     }
-
-    private void NavigationViewControl_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) { } // => VM.NavigationService.GoBack();
 
     private void NavigationViewControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
     {
@@ -98,6 +97,12 @@ public sealed partial class ShellPage : Page, INavigationProvider
         UpdateAppTitleMargin(sender);
         RefreshDragArea();
     }
+
+    private void PaneToggleButton_Click(object sender, RoutedEventArgs e)
+        => NavigationViewControl.IsPaneOpen = !NavigationViewControl.IsPaneOpen;
+
+    private void BackButton_Click(object sender, RoutedEventArgs e)
+        => VM.NavigationService.GoBack();
 
     #endregion
 
@@ -165,10 +170,5 @@ public sealed partial class ShellPage : Page, INavigationProvider
                 return;
             }
         }
-    }
-
-    private void PaneToggleButton_Click(object sender, RoutedEventArgs e)
-    {
-        NavigationViewControl.IsPaneOpen = !NavigationViewControl.IsPaneOpen;
     }
 }

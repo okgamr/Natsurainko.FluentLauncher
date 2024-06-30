@@ -25,6 +25,7 @@
     <PackageReference Include="AppSettingsManagement" Version="0.2.6-alpha" />
     <PackageReference Include="AppSettingsManagement.Windows" Version="0.2.6-alpha" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
@@ -68,12 +69,54 @@
     <None Remove="Views\OOBE\LanguagePage.xaml" />
     <None Remove="Views\OOBE\MinecraftFolderPage.xaml" />
     <None Remove="Views\OOBE\OOBENavigationPage.xaml" />
+    <None Remove="Views\Settings\AboutPage.xaml" />
+    <None Remove="Views\Settings\AccountPage.xaml" />
+    <None Remove="Views\Settings\AppearancePage.xaml" />
+    <None Remove="Views\Settings\CategoryPage.xaml" />
+    <None Remove="Views\Settings\DownloadPage.xaml" />
+    <None Remove="Views\Settings\LaunchPage.xaml" />
+    <None Remove="Views\Settings\NavigationPage.xaml" />
     <None Remove="Views\ShellPage.xaml" />
     <None Remove="XamlHelpers\Dictionaries\NotifyStyleDictionary.xaml" />
 	<None Remove="Views\Home\HomePage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Natsurainko.FluentCore\Natsurainko.FluentCore\Natsurainko.FluentCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings\CategoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings\DownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings\AccountPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings\AppearancePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings\LaunchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings\NavigationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Dialogs\JavaMirrorsDialog.xaml">

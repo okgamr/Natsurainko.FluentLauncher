@@ -31,6 +31,17 @@
             <converters:AccountInfoConverter x:Key="AccountInfoConverter" />
             <converters:GameIconConverter x:Key="GameIconConverter" />
             <converters:GameInfoConverter x:Key="GameInfoConverter" />
+
+            <Style
+                x:Key="SettingsSectionHeaderTextBlockStyle"
+                BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+                TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="1,30,0,6" />
+                </Style.Setters>
+            </Style>
+
+            <x:Double x:Key="SettingsCardSpacing">4</x:Double>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

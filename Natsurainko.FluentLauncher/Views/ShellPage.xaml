@@ -241,7 +241,6 @@
         <NavigationView
             x:Name="NavigationViewControl"
             Grid.Row="1"
-            BackRequested="NavigationViewControl_BackRequested"
             Canvas.ZIndex="0"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             IsBackButtonVisible="Collapsed"
@@ -263,21 +262,6 @@
                     Icon="{xh:FontIcon Glyph=&#xE80F;}"
                     IsSelected="True"
                     Tag="HomePage" />
-                <NavigationViewItem
-                    x:Uid="ShellPage_NV_Item_2"
-                    Content="Cores"
-                    Icon="{xh:FontIcon Glyph=&#xf158;}"
-                    Tag="CoresPage" />
-                <NavigationViewItem
-                    x:Uid="ShellPage_NV_Item_3"
-                    Content="Activities"
-                    Icon="{xh:FontIcon Glyph=&#xE945;}"
-                    Tag="ActivitiesNavigationPage" />
-                <NavigationViewItem
-                    x:Uid="ShellPage_NV_Item_4"
-                    Content="Download resources"
-                    Icon="{xh:FontIcon Glyph=&#xe8f1;}"
-                    Tag="ResourcesDownloadPage" />
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
@@ -322,7 +306,11 @@
                 VerticalAlignment="Center"
                 Canvas.ZIndex="1"
                 Orientation="Horizontal">
-                <Button IsEnabled="{Binding CanGoBack, ElementName=contentFrame}" Style="{ThemeResource NavigationBackButtonNormalStyle}" />
+                <Button
+                    x:Name="BackButton"
+                    Click="BackButton_Click"
+                    IsEnabled="{Binding CanGoBack, ElementName=contentFrame}"
+                    Style="{ThemeResource NavigationBackButtonNormalStyle}" />
                 <Button
                     x:Name="PaneToggleButton"
                     Padding="0"

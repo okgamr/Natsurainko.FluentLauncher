@@ -130,13 +130,15 @@ public partial class App : Application
         services.AddTransient<ViewModels.Activities.DownloadViewModel>();
 
         services.AddTransient<ViewModels.Common.SwitchAccountDialogViewModel>();
-
+        */
         services.AddTransient<ViewModels.Settings.SettingsNavigationViewModel>();
+        services.AddTransient<ViewModels.Settings.SettingsCategoryViewModel>();
+        services.AddTransient<ViewModels.Settings.AboutViewModel>();
+/*
         services.AddTransient<ViewModels.Settings.AppearanceViewModel>();
         services.AddTransient<ViewModels.Settings.DownloadViewModel>();
         services.AddTransient<ViewModels.Settings.AccountViewModel>();
         services.AddTransient<ViewModels.Settings.LaunchViewModel>();
-        services.AddTransient<ViewModels.Settings.AboutViewModel>();
 
         services.AddTransient<ViewModels.Cores.CoresViewModel>();
         services.AddTransient<ViewModels.Cores.ManageNavigationViewModel>();
@@ -189,14 +191,15 @@ public partial class App : Application
         .WithPage<Views.Downloads.ResourcesSearchPage, ViewModels.Downloads.ResourcesSearchViewModel>("ResourcesSearchPage")
         .WithPage<Views.Downloads.CoreInstallWizardPage, ViewModels.Downloads.CoreInstallWizardViewModel>("CoreInstallWizardPage")
         .WithPage<Views.Downloads.ResourceItemPage, ViewModels.Downloads.ResourceItemViewModel>("ResourceItemPage") // Configures VM for itself
-
+        */
         // Settings
         .WithPage<Views.Settings.NavigationPage, ViewModels.Settings.SettingsNavigationViewModel>("SettingsNavigationPage")
-        .WithPage<Views.Settings.LaunchPage, ViewModels.Settings.LaunchViewModel>("LaunchSettingsPage")
-        .WithPage<Views.Settings.AccountPage, ViewModels.Settings.AccountViewModel>("AccountSettingsPage")
-        .WithPage<Views.Settings.DownloadPage, ViewModels.Settings.DownloadViewModel>("DownloadSettingsPage")
-        .WithPage<Views.Settings.AppearancePage, ViewModels.Settings.AppearanceViewModel>("AppearanceSettingsPage")
-        .WithPage<Views.Settings.AboutPage, ViewModels.Settings.AboutViewModel>("AboutPage")*/
+        .WithPage<Views.Settings.CategoryPage, ViewModels.Settings.SettingsCategoryViewModel>("SettingsCategoryPage")
+        .WithPage<Views.Settings.LaunchPage/*, ViewModels.Settings.LaunchViewModel*/>("LaunchSettingsPage")
+        .WithPage<Views.Settings.AccountPage/*, ViewModels.Settings.AccountViewModel*/>("AccountSettingsPage")
+        .WithPage<Views.Settings.DownloadPage/*, ViewModels.Settings.DownloadViewModel*/>("DownloadSettingsPage")
+        .WithPage<Views.Settings.AppearancePage/*, ViewModels.Settings.AppearanceViewModel*/>("AppearanceSettingsPage")
+        .WithPage<Views.Settings.AboutPage, ViewModels.Settings.AboutViewModel>("AboutPage")
 
         .Build();
 
