@@ -4,6 +4,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Xaml.Interactivity;
 using System;
 
+#nullable disable
+
 namespace Natsurainko.FluentLauncher.XamlHelpers.Behaviors
 {
     class SettingsCardContentMaxWidthBehavior : Behavior<FrameworkElement>

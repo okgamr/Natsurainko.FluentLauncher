@@ -12,6 +12,8 @@ internal class GameService(SettingsService settingsService) : DefaultGameService
         if (newFolder == null)
         {
             _games.Clear();
+            ActivateGame(null);
+
             return;
         }
 

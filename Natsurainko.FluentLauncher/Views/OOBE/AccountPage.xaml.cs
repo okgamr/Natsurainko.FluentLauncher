@@ -12,20 +12,6 @@ public sealed partial class AccountPage : Page
         InitializeComponent();
     }
 
-    private void Grid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        var grid = (Grid)sender;
-        var button = (Button)grid.FindName("DeleteButton");
-        button.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-    }
-
-    private void Grid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        var grid = (Grid)sender;
-        var button = (Button)grid.FindName("DeleteButton");
-        button.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-    }
-
     private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         var vm = this.DataContext as OOBEViewModel;

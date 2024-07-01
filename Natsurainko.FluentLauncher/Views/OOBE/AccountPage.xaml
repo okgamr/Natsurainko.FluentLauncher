@@ -63,6 +63,7 @@
         <Grid
             Grid.Column="2"
             Width="300"
+            MaxHeight="275"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <ListView
@@ -96,8 +97,7 @@
                                 BorderThickness="2"
                                 CornerRadius="4">
                                 <Border CornerRadius="4">
-                                    <i:Interaction.Behaviors>
-                                    </i:Interaction.Behaviors>
+                                    <i:Interaction.Behaviors />
                                 </Border>
                             </Border>
                             <StackPanel Grid.Column="2">
@@ -121,8 +121,7 @@
                                 HorizontalAlignment="Right"
                                 Background="Transparent"
                                 BorderThickness="0"
-                                CommandParameter="{Binding}"
-                                Visibility="Collapsed">
+                                CommandParameter="{Binding}">
                                 <FontIcon FontSize="14" Glyph="&#xE711;" />
                                 <i:Interaction.Behaviors>
                                     <behaviors:AncestorBindingBehavior
@@ -131,6 +130,9 @@
                                         TargetPropertyName="Command" />
                                 </i:Interaction.Behaviors>
                             </Button>
+                            <i:Interaction.Behaviors>
+                                <behaviors:PointerOverVisibleBehavior TargetElementName="DeleteButton" />
+                            </i:Interaction.Behaviors>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

@@ -10,77 +10,78 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel
-            MaxWidth="1000"
-            Margin="40,0,40,25"
-            HorizontalAlignment="Stretch"
-            Spacing="{StaticResource SettingsCardSpacing}">
-            <win:StackPanel.ChildrenTransitions>
-                <win:EntranceThemeTransition FromVerticalOffset="50" />
-                <win:RepositionThemeTransition IsStaggeringEnabled="False" />
-            </win:StackPanel.ChildrenTransitions>
+        <Border Margin="40,0,40,25">
+            <StackPanel
+                MaxWidth="1000"
+                HorizontalAlignment="Stretch"
+                Spacing="{StaticResource SettingsCardSpacing}">
+                <win:StackPanel.ChildrenTransitions>
+                    <win:EntranceThemeTransition FromVerticalOffset="50" />
+                    <win:RepositionThemeTransition IsStaggeringEnabled="False" />
+                </win:StackPanel.ChildrenTransitions>
 
-            <controls:SettingsExpander Description="Xcube Studio ©2022-2024. All rights reserved." Header="Fluent Launcher">
-                <controls:SettingsExpander.HeaderIcon>
-                    <ImageIcon Source="ms-appx:///Assets/AppIcon.png" />
-                </controls:SettingsExpander.HeaderIcon>
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="Update">
-                        <Button Command="{Binding CheckUpdateCommand}">
-                            <TextBlock Text="Check Updates in the Microsoft Store" TextTrimming="CharacterEllipsis" />
-                        </Button>
-                    </controls:SettingsCard>
-                    <controls:SettingsCard
-                        ActionIcon="{xh:FontIcon Glyph=&#xE8A7;}"
-                        ActionIconToolTip="Open GitHub profile"
-                        Command="{Binding OpenAuthorCommand}"
-                        Header="The Developers of this Application"
-                        IsClickEnabled="True" />
-                </controls:SettingsExpander.Items>
+                <controls:SettingsExpander Description="Xcube Studio ©2022-2024. All rights reserved." Header="Fluent Launcher">
+                    <controls:SettingsExpander.HeaderIcon>
+                        <ImageIcon Source="ms-appx:///Assets/AppIcon.png" />
+                    </controls:SettingsExpander.HeaderIcon>
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard Header="Update">
+                            <Button Command="{Binding CheckUpdateCommand}">
+                                <TextBlock Text="Check Updates in the Microsoft Store" TextTrimming="CharacterEllipsis" />
+                            </Button>
+                        </controls:SettingsCard>
+                        <controls:SettingsCard
+                            ActionIcon="{xh:FontIcon Glyph=&#xE8A7;}"
+                            ActionIconToolTip="Open GitHub profile"
+                            Command="{Binding OpenAuthorCommand}"
+                            Header="The Developers of this Application"
+                            IsClickEnabled="True" />
+                    </controls:SettingsExpander.Items>
 
-                <TextBlock Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" Style="{ThemeResource CaptionTextBlockStyle}">
-                    <Run Text="{Binding Edition}" />
-                    <Run Text="{Binding Version}" />
-                </TextBlock>
-            </controls:SettingsExpander>
+                    <TextBlock Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" Style="{ThemeResource CaptionTextBlockStyle}">
+                        <Run Text="{Binding Edition}" />
+                        <Run Text="{Binding Version}" />
+                    </TextBlock>
+                </controls:SettingsExpander>
 
-            <controls:SettingsCard
-                ActionIcon="{xh:FontIcon Glyph=&#xE8A7;}"
-                ActionIconToolTip="Open GitHub profile"
-                Command="{Binding OpenGitCommand}"
-                Description="Navigate to the GitHub repository"
-                Header="Sources"
-                HeaderIcon="{xh:FontIcon Glyph=&#xe7c1;}"
-                IsClickEnabled="True" />
+                <controls:SettingsCard
+                    ActionIcon="{xh:FontIcon Glyph=&#xE8A7;}"
+                    ActionIconToolTip="Open GitHub profile"
+                    Command="{Binding OpenGitCommand}"
+                    Description="Navigate to the GitHub repository"
+                    Header="Sources"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xe7c1;}"
+                    IsClickEnabled="True" />
 
-            <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Other information" />
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Other information" />
 
-            <controls:SettingsCard
-                Description="Minecraft is copyrighted by Mojang Studios. We are not responsible for any copyright infringement arising from use of this software."
-                Header="Statements"
-                HeaderIcon="{xh:FontIcon Glyph=&#xea1f;}" />
+                <controls:SettingsCard
+                    Description="Minecraft is copyrighted by Mojang Studios. We are not responsible for any copyright infringement arising from use of this software."
+                    Header="Statements"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xea1f;}" />
 
-            <controls:SettingsCard Header="Copyright &amp; License Information" HeaderIcon="{xh:FontIcon Glyph=&#xF167;}">
-                <HyperlinkButton
-                    Content="LICENSE"
-                    NavigateUri="https://github.com/Xcube-Studio/Natsurainko.FluentLauncher/blob/main/LICENSE"
-                    ToolTipService.ToolTip="https://github.com/Xcube-Studio/Natsurainko.FluentLauncher/blob/main/LICENSE" />
-            </controls:SettingsCard>
+                <controls:SettingsCard Header="Copyright &amp; License Information" HeaderIcon="{xh:FontIcon Glyph=&#xF167;}">
+                    <HyperlinkButton
+                        Content="LICENSE"
+                        NavigateUri="https://github.com/Xcube-Studio/Natsurainko.FluentLauncher/blob/main/LICENSE"
+                        ToolTipService.ToolTip="https://github.com/Xcube-Studio/Natsurainko.FluentLauncher/blob/main/LICENSE" />
+                </controls:SettingsCard>
 
-            <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Credits" />
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Credits" />
 
-            <controls:SettingsExpander
-                Description="Thanks for all the services provided to this app"
-                Header="Acknowledgments"
-                HeaderIcon="{xh:FontIcon Glyph=&#xe8b5;}">
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Description="Provide Download Source" Header="BMCLAPI">
-                        <HyperlinkButton NavigateUri="https://bmclapidoc.bangbang93.com/" ToolTipService.ToolTip="https://bmclapidoc.bangbang93.com/">
-                            <TextBlock Text="bangbang93.com" />
-                        </HyperlinkButton>
-                    </controls:SettingsCard>
-                </controls:SettingsExpander.Items>
-            </controls:SettingsExpander>
-        </StackPanel>
+                <controls:SettingsExpander
+                    Description="Thanks for all the services provided to this app"
+                    Header="Acknowledgments"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xe8b5;}">
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard Description="Provide Download Source" Header="BMCLAPI">
+                            <HyperlinkButton NavigateUri="https://bmclapidoc.bangbang93.com/" ToolTipService.ToolTip="https://bmclapidoc.bangbang93.com/">
+                                <TextBlock Text="bangbang93.com" />
+                            </HyperlinkButton>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+                </controls:SettingsExpander>
+            </StackPanel>
+        </Border>
     </ScrollViewer>
 </Page>

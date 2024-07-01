@@ -2,11 +2,287 @@
     x:Class="Natsurainko.FluentLauncher.Views.Settings.LaunchPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+    xmlns:behaviors="using:Natsurainko.FluentLauncher.XamlHelpers.Behaviors"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:Natsurainko.FluentLauncher.XamlHelpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Natsurainko.FluentLauncher.Views.Settings"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:xh="using:Natsurainko.FluentLauncher.XamlHelpers"
     mc:Ignorable="d">
 
-    <Grid />
+    <ScrollViewer>
+        <Border Margin="40,0,40,25">
+            <StackPanel
+                MaxWidth="1000"
+                HorizontalAlignment="Stretch"
+                Spacing="{StaticResource SettingsCardSpacing}">
+                <win:StackPanel.ChildrenTransitions>
+                    <win:EntranceThemeTransition FromVerticalOffset="50" />
+                    <win:RepositionThemeTransition IsStaggeringEnabled="False" />
+                </win:StackPanel.ChildrenTransitions>
+
+                <TextBlock Style="{ThemeResource SettingsTitleSectionHeaderTextBlockStyle}" Text=".minecraft Folders" />
+
+                <StackPanel
+                    Margin="0,20,0,15"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <StackPanel.Visibility>
+                        <Binding Path="IsMinecraftFoldersEmpty">
+                            <Binding.Converter>
+                                <converters:BoolToVisibilityConverter />
+                            </Binding.Converter>
+                        </Binding>
+                    </StackPanel.Visibility>
+                    <FontIcon
+                        FontSize="48"
+                        Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                        Glyph="&#xe74c;" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="28"
+                        FontWeight="SemiBold"
+                        Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                        Text="No Folder" />
+                </StackPanel>
+                <ItemsRepeater ItemsSource="{Binding MinecraftFolders}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SettingsCard
+                                ActionIcon="{xh:FontIcon Glyph=&#xED43;}"
+                                CommandParameter="{Binding}"
+                                Description="{Binding}"
+                                Header="Minecraft Folder"
+                                HeaderIcon="{xh:FontIcon Glyph=&#xED43;}"
+                                IsClickEnabled="True"
+                                Loaded="Card_Loaded"
+                                Tag="ActiveMinecraftFolder">
+                                <StackPanel
+                                    Name="Operations"
+                                    Orientation="Horizontal"
+                                    Spacing="10">
+                                    <Button
+                                        CommandParameter="{Binding}"
+                                        Content="Active"
+                                        Style="{ThemeResource AccentButtonStyle}">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:AncestorBindingBehavior
+                                                AncestorType="ScrollViewer"
+                                                Binding="{Binding DataContext.ActivateFolderCommand}"
+                                                TargetPropertyName="Command" />
+                                        </i:Interaction.Behaviors>
+                                    </Button>
+                                    <Button CommandParameter="{Binding}" Content="Remove">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:AncestorBindingBehavior
+                                                AncestorType="ScrollViewer"
+                                                Binding="{Binding DataContext.RemoveFolderCommand}"
+                                                TargetPropertyName="Command" />
+                                        </i:Interaction.Behaviors>
+                                    </Button>
+                                </StackPanel>
+
+                                <i:Interaction.Behaviors>
+                                    <behaviors:PointerOverVisibleBehavior TargetElementName="Operations" />
+                                    <behaviors:AncestorBindingBehavior
+                                        AncestorType="ScrollViewer"
+                                        Binding="{Binding DataContext.NavigateFolderCommand}"
+                                        TargetPropertyName="Command" />
+                                </i:Interaction.Behaviors>
+                            </controls:SettingsCard>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+                <controls:SettingsCard
+                    ActionIcon="{xh:FontIcon Glyph=&#xe838;}"
+                    Command="{Binding BrowserFolderCommand}"
+                    Description="The imported folders will be displayed in the list above"
+                    Header="Import .minecraft Data Folder"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xe8f4;}"
+                    IsClickEnabled="True" />
+
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Java Runtime" />
+
+                <StackPanel
+                    Margin="0,20,0,15"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <StackPanel.Visibility>
+                        <Binding Path="IsJavasEmpty">
+                            <Binding.Converter>
+                                <converters:BoolToVisibilityConverter />
+                            </Binding.Converter>
+                        </Binding>
+                    </StackPanel.Visibility>
+                    <FontIcon
+                        FontSize="48"
+                        Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                        Glyph="&#xe74c;" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="28"
+                        FontWeight="SemiBold"
+                        Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                        Text="No Java Runtime" />
+                </StackPanel>
+                <ItemsRepeater ItemsSource="{Binding Javas}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SettingsCard
+                                ActionIcon="{xh:FontIcon Glyph=&#xED43;}"
+                                CommandParameter="{Binding}"
+                                Description="{Binding}"
+                                Header="{Binding Converter={ThemeResource JavaInfoConverter}}"
+                                HeaderIcon="{Binding Converter={ThemeResource JavaIconConverter}}"
+                                IsClickEnabled="True"
+                                Loaded="Card_Loaded"
+                                Tag="ActiveJava">
+                                <StackPanel
+                                    Name="Operations"
+                                    Orientation="Horizontal"
+                                    Spacing="10">
+                                    <Button
+                                        CommandParameter="{Binding}"
+                                        Content="Active"
+                                        Style="{ThemeResource AccentButtonStyle}">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:AncestorBindingBehavior
+                                                AncestorType="ScrollViewer"
+                                                Binding="{Binding DataContext.ActivateJavaCommand}"
+                                                TargetPropertyName="Command" />
+                                        </i:Interaction.Behaviors>
+                                    </Button>
+                                    <Button CommandParameter="{Binding}" Content="Remove">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:AncestorBindingBehavior
+                                                AncestorType="ScrollViewer"
+                                                Binding="{Binding DataContext.RemoveJavaCommand}"
+                                                TargetPropertyName="Command" />
+                                        </i:Interaction.Behaviors>
+                                    </Button>
+                                </StackPanel>
+
+                                <i:Interaction.Behaviors>
+                                    <behaviors:PointerOverVisibleBehavior TargetElementName="Operations" />
+                                    <behaviors:AncestorBindingBehavior
+                                        AncestorType="ScrollViewer"
+                                        Binding="{Binding DataContext.NavigateJavaCommand}"
+                                        TargetPropertyName="Command" />
+                                </i:Interaction.Behaviors>
+                            </controls:SettingsCard>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+                <controls:SettingsCard
+                    ActionIcon="{xh:FontIcon Glyph=&#xe838;}"
+                    Command="{Binding BrowserJavaCommand}"
+                    Description="The imported Javas will be displayed in the list above"
+                    Header="Import Java Runtime"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xe838;}"
+                    IsClickEnabled="True">
+                    <Button Height="32" Command="{Binding SearchJavaCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <AnimatedIcon Height="21.5">
+                                <AnimatedIcon.Source>
+                                    <animatedvisuals:AnimatedFindVisualSource />
+                                </AnimatedIcon.Source>
+                                <AnimatedIcon.FallbackIconSource>
+                                    <SymbolIconSource Symbol="Find" />
+                                </AnimatedIcon.FallbackIconSource>
+                            </AnimatedIcon>
+                            <TextBlock Text="Search" />
+                        </StackPanel>
+                    </Button>
+                </controls:SettingsCard>
+                <controls:SettingsCard
+                    Description="Select the appropriate version of Java from the list to launch game according to the Minecraft version"
+                    Header="Automatically Select Java Runtime"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xeccb;}">
+                    <ToggleSwitch IsOn="{Binding EnableAutoJava, Mode=TwoWay}" />
+                </controls:SettingsCard>
+                <controls:SettingsCard
+                    Description="The maximum running memory of the Java virtual machine"
+                    Header="Java Runtime Memory"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xe9e9;}">
+                    <controls:SettingsCard.Visibility>
+                        <Binding Path="EnableAutoMemory">
+                            <Binding.Converter>
+                                <converters:BoolToVisibilityConverter Inverted="True" />
+                            </Binding.Converter>
+                        </Binding>
+                    </controls:SettingsCard.Visibility>
+
+                    <StackPanel Orientation="Horizontal" Spacing="15">
+                        <NumberBox
+                            LargeChange="128"
+                            SmallChange="16"
+                            SpinButtonPlacementMode="Inline"
+                            Value="{Binding JavaMemory, Mode=TwoWay}" />
+                        <TextBlock VerticalAlignment="Center" Text="(MB)" />
+                    </StackPanel>
+                </controls:SettingsCard>
+                <controls:SettingsCard
+                    Description="Calculate the memory allocated to Java based on the remaining physical memory on the system"
+                    Header="Automatically set Java runtime memory"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xe9d9;}">
+                    <ToggleSwitch IsOn="{Binding EnableAutoMemory, Mode=TwoWay}" />
+                </controls:SettingsCard>
+
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Global Game Settings" />
+
+                <controls:SettingsCard
+                    Description="The game will run at versions\${version} directory"
+                    Header="Core Independent"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xE713;}">
+                    <ToggleSwitch IsOn="{Binding EnableIndependencyCore, Mode=TwoWay}" />
+                </controls:SettingsCard>
+
+                <controls:SettingsCard
+                    Description="Automatic full screen mode after entering the game"
+                    Header="Full Screen Mode"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xE740;}">
+                    <ToggleSwitch IsOn="{Binding EnableFullScreen, Mode=TwoWay}" />
+                </controls:SettingsCard>
+
+                <controls:SettingsCard Header="Game Window Resolution" HeaderIcon="{xh:FontIcon Glyph=&#xE744;}">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <NumberBox
+                            Width="100"
+                            Minimum="0"
+                            Value="{Binding GameWindowWidth, Mode=TwoWay}" />
+                        <FontIcon FontSize="14" Glyph="&#xe947;" />
+                        <NumberBox
+                            Width="100"
+                            Minimum="0"
+                            Value="{Binding GameWindowHeight, Mode=TwoWay}" />
+                    </StackPanel>
+                </controls:SettingsCard>
+
+                <controls:SettingsCard
+                    Description="The server address to connect after entering the game"
+                    Header="Server Address"
+                    HeaderIcon="{xh:FontIcon Glyph=&#xE967;}">
+                    <TextBox Width="400" Text="{Binding GameServerAddress, Mode=TwoWay}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:SettingsCardContentMaxWidthBehavior AscendentType="Grid" AutoMaxWidth="True" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </controls:SettingsCard>
+
+                <controls:SettingsCard Header="Game Window Title" HeaderIcon="{xh:FontIcon Glyph=&#xE76F;}">
+                    <TextBox Width="400" Text="{Binding GameWindowTitle, Mode=TwoWay}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:SettingsCardContentMaxWidthBehavior AscendentType="Grid" AutoMaxWidth="True" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </controls:SettingsCard>
+
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
 </Page>

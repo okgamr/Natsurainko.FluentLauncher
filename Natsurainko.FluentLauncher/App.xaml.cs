@@ -39,6 +39,7 @@ public partial class App : Application
     void ConfigureApplication()
     {
         DispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        App.GetService<MessengerService>().SubscribeEvents();
 
         // Global exception handler
         UnhandledException += (_, e) =>
@@ -134,11 +135,12 @@ public partial class App : Application
         services.AddTransient<ViewModels.Settings.SettingsNavigationViewModel>();
         services.AddTransient<ViewModels.Settings.SettingsCategoryViewModel>();
         services.AddTransient<ViewModels.Settings.AboutViewModel>();
+        services.AddTransient<ViewModels.Settings.LaunchViewModel>();
+
 /*
         services.AddTransient<ViewModels.Settings.AppearanceViewModel>();
         services.AddTransient<ViewModels.Settings.DownloadViewModel>();
         services.AddTransient<ViewModels.Settings.AccountViewModel>();
-        services.AddTransient<ViewModels.Settings.LaunchViewModel>();
 
         services.AddTransient<ViewModels.Cores.CoresViewModel>();
         services.AddTransient<ViewModels.Cores.ManageNavigationViewModel>();
@@ -195,7 +197,7 @@ public partial class App : Application
         // Settings
         .WithPage<Views.Settings.NavigationPage, ViewModels.Settings.SettingsNavigationViewModel>("SettingsNavigationPage")
         .WithPage<Views.Settings.CategoryPage, ViewModels.Settings.SettingsCategoryViewModel>("SettingsCategoryPage")
-        .WithPage<Views.Settings.LaunchPage/*, ViewModels.Settings.LaunchViewModel*/>("LaunchSettingsPage")
+        .WithPage<Views.Settings.LaunchPage, ViewModels.Settings.LaunchViewModel>("LaunchSettingsPage")
         .WithPage<Views.Settings.AccountPage/*, ViewModels.Settings.AccountViewModel*/>("AccountSettingsPage")
         .WithPage<Views.Settings.DownloadPage/*, ViewModels.Settings.DownloadViewModel*/>("DownloadSettingsPage")
         .WithPage<Views.Settings.AppearancePage/*, ViewModels.Settings.AppearanceViewModel*/>("AppearanceSettingsPage")

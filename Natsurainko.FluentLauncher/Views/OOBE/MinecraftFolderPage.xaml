@@ -73,6 +73,7 @@
         <Grid
             Grid.Column="2"
             Width="300"
+            MaxHeight="275"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <ListView ItemsSource="{Binding MinecraftFolders}" SelectedItem="{Binding ActiveMinecraftFolder, Mode=TwoWay}">
@@ -85,11 +86,7 @@
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid
-                            Background="Transparent"
-                            ColumnSpacing="8"
-                            PointerEntered="Grid_PointerEntered"
-                            PointerExited="Grid_PointerExited">
+                        <Grid Background="Transparent" ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -106,7 +103,7 @@
                                 Text="{Binding}"
                                 TextTrimming="CharacterEllipsis" />
                             <Button
-                                x:Name="DeleteButton"
+                                Name="DeleteButton"
                                 Grid.Column="2"
                                 Width="28"
                                 Height="24"
@@ -114,8 +111,7 @@
                                 HorizontalAlignment="Right"
                                 Background="Transparent"
                                 BorderThickness="0"
-                                CommandParameter="{Binding}"
-                                Visibility="Collapsed">
+                                CommandParameter="{Binding}">
                                 <FontIcon FontSize="14" Glyph="&#xE711;" />
                                 <i:Interaction.Behaviors>
                                     <behaviors:AncestorBindingBehavior
@@ -124,6 +120,9 @@
                                         TargetPropertyName="Command" />
                                 </i:Interaction.Behaviors>
                             </Button>
+                            <i:Interaction.Behaviors>
+                                <behaviors:PointerOverVisibleBehavior TargetElementName="DeleteButton" />
+                            </i:Interaction.Behaviors>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

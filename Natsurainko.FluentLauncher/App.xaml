@@ -28,6 +28,7 @@
             </ResourceDictionary.ThemeDictionaries>
 
             <converters:JavaInfoConverter x:Key="JavaInfoConverter" />
+            <converters:JavaIconConverter x:Key="JavaIconConverter" />
             <converters:AccountInfoConverter x:Key="AccountInfoConverter" />
             <converters:GameIconConverter x:Key="GameIconConverter" />
             <converters:GameInfoConverter x:Key="GameInfoConverter" />
@@ -40,6 +41,11 @@
                     <Setter Property="Margin" Value="1,30,0,6" />
                 </Style.Setters>
             </Style>
+
+            <Style
+                x:Key="SettingsTitleSectionHeaderTextBlockStyle"
+                BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+                TargetType="TextBlock" />
 
             <x:Double x:Key="SettingsCardSpacing">4</x:Double>
         </ResourceDictionary>

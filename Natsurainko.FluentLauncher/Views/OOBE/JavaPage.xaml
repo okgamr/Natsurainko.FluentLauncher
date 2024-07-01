@@ -77,6 +77,7 @@
         <Grid
             Grid.Column="2"
             Width="300"
+            MaxHeight="275"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <ListView ItemsSource="{Binding JavaRuntimes}" SelectedItem="{Binding ActiveJavaRuntime, Mode=TwoWay}">
@@ -89,11 +90,7 @@
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid
-                            Padding="0,7.5"
-                            Background="Transparent"
-                            PointerEntered="Grid_PointerEntered"
-                            PointerExited="Grid_PointerExited">
+                        <Grid Padding="0,7.5" Background="Transparent">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="7.5" />
@@ -120,7 +117,7 @@
                                     TextWrapping="NoWrap" />
                             </StackPanel>
                             <Button
-                                x:Name="DeleteButton"
+                                Name="DeleteButton"
                                 Grid.Column="3"
                                 Width="28"
                                 Height="24"
@@ -128,8 +125,7 @@
                                 HorizontalAlignment="Right"
                                 Background="Transparent"
                                 BorderThickness="0"
-                                CommandParameter="{Binding}"
-                                Visibility="Collapsed">
+                                CommandParameter="{Binding}">
                                 <FontIcon FontSize="14" Glyph="&#xE711;" />
                                 <i:Interaction.Behaviors>
                                     <behaviors:AncestorBindingBehavior
@@ -138,6 +134,9 @@
                                         TargetPropertyName="Command" />
                                 </i:Interaction.Behaviors>
                             </Button>
+                            <i:Interaction.Behaviors>
+                                <behaviors:PointerOverVisibleBehavior TargetElementName="DeleteButton" />
+                            </i:Interaction.Behaviors>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

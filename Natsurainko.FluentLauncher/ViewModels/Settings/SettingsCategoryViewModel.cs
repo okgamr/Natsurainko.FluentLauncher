@@ -1,20 +1,36 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using AppSettingsManagement.Mvvm;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.Controls;
+using Natsurainko.FluentLauncher.Services.Settings;
 using Natsurainko.FluentLauncher.Services.UI.Navigation;
-using Natsurainko.FluentLauncher.Utils.Extensions;
+using Natsurainko.FluentLauncher.Utils;
+using System.Collections.Generic;
 using Windows.ApplicationModel;
+
+#nullable disable
 
 namespace Natsurainko.FluentLauncher.ViewModels.Settings;
 
-internal partial class SettingsCategoryViewModel : ObservableObject
+internal partial class SettingsCategoryViewModel : SettingsViewModelBase, ISettingsViewModel
 {
+    [SettingsProvider]
+    private readonly SettingsService _settingsService;
+
     private readonly INavigationService _navigationService;
 
-    public SettingsCategoryViewModel(INavigationService navigationService)
+    public SettingsCategoryViewModel(SettingsService settingsService, INavigationService navigationService)
     {
+        _settingsService = settingsService;
         _navigationService = navigationService;
+
+        (this as ISettingsViewModel).InitializeSettings();
     }
+
+    [ObservableProperty]
+    [BindToSetting(Path = nameof(SettingsService.CurrentLanguage))]
+    private string currentLanguage;
+
+    public List<string> Languages { get; } = LocalizationResourcesUtils.Languages;
 
     [ObservableProperty]
     private string version = string.Format("{0}.{1}.{2}.{3}",
@@ -31,10 +47,12 @@ internal partial class SettingsCategoryViewModel : ObservableObject
     private string edition = "Release";
 #endif
 
-    [RelayCommand]
-    void CardClick(object args)
+    partial void OnCurrentLanguageChanged(string oldValue, string newValue)
     {
-        var sender = args.As<SettingsCard, object>().sender;
-        _navigationService.NavigateTo(sender.GetTag());
+        if (Languages.Contains(CurrentLanguage) && oldValue is not null) // oldValue is null at startup
+            LocalizationResourcesUtils.ApplyLanguage(CurrentLanguage);
     }
+
+    [RelayCommand]
+    void CardClick(string tag) => _navigationService.NavigateTo(tag);
 }
