@@ -140,9 +140,9 @@ public partial class App : Application
 /*
         services.AddTransient<ViewModels.Settings.AppearanceViewModel>();
         services.AddTransient<ViewModels.Settings.DownloadViewModel>();
-        services.AddTransient<ViewModels.Settings.AccountViewModel>();
+        services.AddTransient<ViewModels.Settings.AccountViewModel>();*/
 
-        services.AddTransient<ViewModels.Cores.CoresViewModel>();
+        services.AddTransient<ViewModels.Cores.CoresViewModel>();/*
         services.AddTransient<ViewModels.Cores.ManageNavigationViewModel>();
         services.AddTransient<ViewModels.Cores.Manage.CoreModsViewModel>();
         services.AddTransient<ViewModels.Cores.Manage.CoreSettingsViewModel>();
@@ -174,9 +174,9 @@ public partial class App : Application
         
         // Home page
         .WithPage<Views.Home.HomePage, ViewModels.Home.HomeViewModel>("HomePage")
-        /*
+        
         // Cores page
-        .WithPage<Views.Cores.CoresPage, ViewModels.Cores.CoresViewModel>("CoresPage")
+        .WithPage<Views.Cores.CoresPage, ViewModels.Cores.CoresViewModel>("CoresPage")/*
         .WithPage<Views.Cores.ManageNavigationPage, ViewModels.Cores.ManageNavigationViewModel>("CoresManageNavigationPage")
         .WithPage<Views.Cores.Manage.CoreSettingsPage, ViewModels.Cores.Manage.CoreSettingsViewModel>("CoreSettingsPage")
         .WithPage<Views.Cores.Manage.CoreModsPage, ViewModels.Cores.Manage.CoreModsViewModel>("CoreModsPage")
@@ -187,8 +187,10 @@ public partial class App : Application
         .WithPage<Views.Activities.LaunchPage, ViewModels.Activities.LaunchViewModel>("LaunchTasksPage")
         .WithPage<Views.Activities.DownloadPage, ViewModels.Activities.DownloadViewModel>("DownloadTasksPage")
         .WithPage<Views.Activities.NewsPage, ViewModels.Activities.NewsViewModel>("NewsPage")
-
+        */
         // Resources download page
+        .WithPage<Views.Resources.CenterPage>("ResourcesCenterPage")
+        /*
         .WithPage<Views.Downloads.DownloadsPage, ViewModels.Downloads.DownloadsViewModel>("ResourcesDownloadPage")
         .WithPage<Views.Downloads.ResourcesSearchPage, ViewModels.Downloads.ResourcesSearchViewModel>("ResourcesSearchPage")
         .WithPage<Views.Downloads.CoreInstallWizardPage, ViewModels.Downloads.CoreInstallWizardViewModel>("CoreInstallWizardPage")

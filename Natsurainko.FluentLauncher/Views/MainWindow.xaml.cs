@@ -59,7 +59,7 @@ public sealed partial class MainWindow : WindowEx, INavigationProvider
         (Width, Height) = (_settings.AppWindowWidth, _settings.AppWindowHeight);
 
         //App.GetService<AppearanceService>().ApplyBackgroundAtWindowCreated(this);
-        this.SystemBackdrop = new MicaBackdrop();
+        this.SystemBackdrop = new MicaBackdrop() { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt };
 
         this.SizeChanged += WindowEx_SizeChanged;
         this.WindowStateChanged += WindowEx_WindowStateChanged;

@@ -28,6 +28,7 @@
     <PackageReference Include="AppSettingsManagement" Version="0.2.6-alpha" />
     <PackageReference Include="AppSettingsManagement.Windows" Version="0.2.6-alpha" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
@@ -65,6 +66,7 @@
   <ItemGroup>
     <None Remove="Assets\AppIcon.ico" />
     <None Remove="Assets\AppIcon.png" />
+    <None Remove="Views\Cores\CoresPage.xaml" />
     <None Remove="Views\Dialogs\AuthenticationWizardDialog.xaml" />
     <None Remove="Views\Dialogs\JavaMirrorsDialog.xaml" />
     <None Remove="Views\OOBE\AccountPage.xaml" />
@@ -73,6 +75,7 @@
     <None Remove="Views\OOBE\LanguagePage.xaml" />
     <None Remove="Views\OOBE\MinecraftFolderPage.xaml" />
     <None Remove="Views\OOBE\OOBENavigationPage.xaml" />
+    <None Remove="Views\Resources\CenterPage.xaml" />
     <None Remove="Views\Settings\AboutPage.xaml" />
     <None Remove="Views\Settings\AccountPage.xaml" />
     <None Remove="Views\Settings\AppearancePage.xaml" />
@@ -86,6 +89,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Natsurainko.FluentCore\Natsurainko.FluentCore\Natsurainko.FluentCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Resources\CenterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Cores\CoresPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Settings\CategoryPage.xaml">
